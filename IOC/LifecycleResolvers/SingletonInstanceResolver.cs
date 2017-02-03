@@ -17,5 +17,10 @@ namespace IOC.InstanceResolvers
 
             return _instance;
         }
+
+        public void SetInstance(T instance)
+        {
+            _instance = instance;
+        }
     }
 }

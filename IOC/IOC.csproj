@@ -42,10 +42,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Container.cs" />
+    <Compile Include="Exceptions\ContainerClosedException.cs" />
+    <Compile Include="Exceptions\ObjectIncompatibleException.cs" />
     <Compile Include="LifecycleResolvers\TransientInstanceResolver.cs" />
     <Compile Include="LifecycleResolvers\IInstanceResolver.cs" />
-    <Compile Include="NoImplementationRegisteredException.cs" />
-    <Compile Include="ObjectRegistration.cs" />
+    <Compile Include="Exceptions\NoImplementationRegisteredException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="LifecycleResolvers\SingletonInstanceResolver.cs" />
     <Compile Include="TypeRegistration.cs" />
