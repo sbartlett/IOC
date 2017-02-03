@@ -9,6 +9,18 @@ namespace IOC.Tests
     public class ContainerTests
     {
         [Fact]
+        public void can_resolve_transient_type_without_generic()
+        {
+            var container = new Container();
+            container.Register(typeof(Dependency2));
+
+            var obj = container.Resolve<Dependency2>();
+            var obj2 = container.Resolve<Dependency2>();
+
+            obj.ShouldNotBeSameAs(obj2);
+        }
+
+        [Fact]
         public void can_resolve_transient_type()
         {
             var container = new Container();

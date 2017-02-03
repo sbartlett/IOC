@@ -12,7 +12,13 @@ namespace IOC
         private bool _containerClosed;
         private readonly List<TypeRegistration> _typeRegistrations = new List<TypeRegistration>();
 
-        public void Register<TType, UImplementation>()  where UImplementation : class
+        public void Register(Type type)
+        {
+            var resolver = buildResolver(typeof(TransientInstanceResolver<>), type);
+            registerType(type, type, resolver);
+        }
+
+        public void Register<TType, UImplementation>() where UImplementation : class
         {
             var resolver = new TransientInstanceResolver<UImplementation>();
             registerType(typeof(TType), typeof(UImplementation), resolver);
@@ -22,6 +28,12 @@ namespace IOC
         {
             var resolver = new SingletonInstanceResolver<UImplementation>();
             registerType(typeof(TType), typeof(UImplementation), resolver);
+        }
+
+        public void RegisterSingleton(Type type)
+        {
+            var resolver = buildResolver(typeof(SingletonInstanceResolver<>), type);
+            registerType(type, type, resolver);
         }
 
         public void RegisterInstance<TType>(TType instance) where TType : class
@@ -51,6 +63,12 @@ namespace IOC
 
             var type = typeof(T);
             return resolveAllTypes(type).Select(x => (T)x);
+        }
+
+        private IInstanceResolver buildResolver(Type resolverType, Type typeToResolve)
+        {
+            var constructedListType = resolverType.MakeGenericType(typeToResolve);
+            return  (IInstanceResolver)Activator.CreateInstance(constructedListType);
         }
 
         private void registerType(Type type, Type implemnationType, IInstanceResolver resolver)

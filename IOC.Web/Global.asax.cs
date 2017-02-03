@@ -20,9 +20,18 @@ namespace IOC.Web
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             var container = new Container();
             container.Register<IQuoteProvider, QuoteProvider.QuoteProvider>();
-            container.Register<HomeController, HomeController>();
+            connectControllers(container);
 
             ControllerBuilder.Current.SetControllerFactory(new IOCControllerFactory(container));
+        }
+
+        private void connectControllers(Container container)
+        {
+            var types = typeof(Startup).Assembly.GetTypes().Where(x => typeof(Controller).IsAssignableFrom(x));
+            foreach (var t in types)
+            {
+                container.Register(t);
+            }
         }
     }
 
