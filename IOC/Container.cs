@@ -34,10 +34,15 @@ namespace IOC
 
         public T Resolve<T>()
         {
+            var type = typeof(T);
+            return (T)Resolve(type);
+        }
+
+        public object Resolve(Type type)
+        {
             _containerClosed = true;
 
-            var type = typeof(T);
-            return (T)resolveType(type);
+            return resolveType(type);
         }
 
         public IEnumerable<T> ResolveAll<T>()
